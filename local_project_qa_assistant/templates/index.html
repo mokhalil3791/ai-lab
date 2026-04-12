@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ app_title }}</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <h1>{{ app_title }}</h1>
+      <p>Ask grounded questions about one local project folder at a time using LM Studio.</p>
+      <p class="meta">LM Studio: {{ lmstudio_base_url }} | Model: {{ lmstudio_model }}</p>
+    </header>
+
+    <section class="card">
+      <label for="rootPath">Project folder</label>
+      <div class="row">
+        <input id="rootPath" type="text" value="{{ current_root_path }}" placeholder="D:\Dev\personal\ai-lab">
+        <button id="loadProjectBtn">Load Project</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <label for="question">Question</label>
+      <textarea id="question" rows="5" placeholder="How is LM Studio configured in this project?"></textarea>
+      <div class="row actions">
+        <button id="askBtn">Ask</button>
+        <span id="status" class="status idle">Idle</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Answer</h2>
+      <div id="answer" class="answer empty">No answer yet.</div>
+      <div id="evidenceSummary" class="evidence-summary"></div>
+      <div id="confidence" class="confidence"></div>
+    </section>
+
+    <section class="card">
+      <h2>Sources</h2>
+      <ul id="sources" class="sources">
+        <li>No sources yet.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
