@@ -71,13 +71,28 @@ button:hover {
   background: #0b52db;
 }
 
+button:disabled,
+input:disabled,
+textarea:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .actions {
   margin-top: 10px;
   justify-content: space-between;
 }
 
+.status-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
 .status {
   font-size: 14px;
+  font-weight: 600;
 }
 
 .status.loading {
@@ -86,6 +101,16 @@ button:hover {
 
 .status.error {
   color: #c62828;
+}
+
+.status-detail,
+.timer {
+  font-size: 13px;
+  color: #4b5865;
+}
+
+.timer {
+  font-variant-numeric: tabular-nums;
 }
 
 .answer {
@@ -121,6 +146,10 @@ button:hover {
   }
 
   .actions {
+    align-items: flex-start;
+  }
+
+  .status-panel {
     align-items: flex-start;
   }
 }

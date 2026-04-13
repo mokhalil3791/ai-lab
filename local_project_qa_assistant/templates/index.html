@@ -27,7 +27,11 @@
       <textarea id="question" rows="5" placeholder="How is LM Studio configured in this project?"></textarea>
       <div class="row actions">
         <button id="askBtn">Ask</button>
-        <span id="status" class="status idle">Idle</span>
+        <div class="status-panel">
+          <span id="status" class="status idle">Idle</span>
+          <span id="statusDetail" class="status-detail">Ready for a question.</span>
+          <span id="timer" class="timer" hidden>Elapsed: 00:00</span>
+        </div>
       </div>
     </section>
 
