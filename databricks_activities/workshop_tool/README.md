@@ -1,14 +1,14 @@
-# Databricks RACI Workshop Assistant
+# Databricks Activity Explorer
 
-Static local workshop tool for reviewing the Databricks activity glossary alongside the pre-filled RACI matrix.
+Static local web tool for teaching the Databricks activity model from the RACI glossary in a more audience-friendly way.
 
 ## What it does
 
-- shows all glossary activities in one interactive matrix
-- lets participants review or override the suggested RACI
-- explains each activity in plain language
-- gives discussion prompts for workshop facilitation
-- exports the workshop result to CSV
+- turns the glossary into a visual learning experience
+- groups activities into themes like platform setup, governance, operations, security, and enablement
+- lets the audience browse activities with section, theme, and lead-pillar filters
+- explains each activity in plain language with workshop talking points
+- includes an interactive accountability quiz for live sessions
 
 ## Source of truth
 

@@ -3,119 +3,194 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Databricks RACI Workshop Assistant</title>
+  <title>Databricks Activity Explorer</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="shell">
     <header class="hero">
-      <div>
-        <p class="eyebrow">Workshop Support Tool</p>
-        <h1>Databricks RACI Workshop Assistant</h1>
-        <p class="hero-copy">
-          Review each Databricks activity, read the glossary definition in plain language,
-          challenge the suggested RACI, and capture the workshop view in one place.
+      <div class="hero-copy">
+        <p class="eyebrow">Interactive Learning Tool</p>
+        <h1>Databricks Activity Explorer</h1>
+        <p class="hero-lead">
+          Turn the RACI glossary into a guided tour of the Databricks operating model. Help your audience understand
+          what each activity means, why it matters, and which organisation usually leads it.
         </p>
+        <div class="hero-actions">
+          <a class="button-link" href="#explorer">Explore Activities</a>
+          <a class="button-link secondary-link" href="#quiz">Try the Accountability Quiz</a>
+        </div>
       </div>
-      <div class="hero-card">
+
+      <aside class="hero-panel">
         <div class="hero-stat">
-          <span class="hero-stat-label">Activities</span>
+          <span>Activities</span>
           <strong id="activityCount">0</strong>
         </div>
         <div class="hero-stat">
-          <span class="hero-stat-label">Sections</span>
+          <span>Sections</span>
           <strong id="sectionCount">0</strong>
         </div>
         <div class="hero-stat">
-          <span class="hero-stat-label">Changed rows</span>
-          <strong id="changedCount">0</strong>
+          <span>Platform leads</span>
+          <strong id="ownerCount">0</strong>
         </div>
-      </div>
+        <div class="hero-note">
+          <h2>Built From</h2>
+          <p id="sourceLabel">RACI Matrix v2.3 glossary and pre-filled workshop matrix.</p>
+        </div>
+      </aside>
     </header>
 
-    <section class="toolbar card">
-      <div class="toolbar-main">
-        <label class="field">
-          <span>Search activities</span>
-          <input id="searchInput" type="search" placeholder="Search by activity, section, or keyword">
-        </label>
-        <label class="field">
-          <span>Section</span>
-          <select id="sectionFilter">
-            <option value="all">All sections</option>
-          </select>
-        </label>
-      </div>
-      <div class="toolbar-actions">
-        <button id="exportBtn" type="button">Export CSV</button>
-        <button id="resetBtn" type="button" class="secondary">Reset Workshop Changes</button>
-      </div>
+    <section class="intro-grid">
+      <article class="card story-card">
+        <div class="icon-badge icon-orange" aria-hidden="true" id="storyIcon"></div>
+        <div>
+          <p class="section-label">What This Tool Teaches</p>
+          <h2>Explain the operating model in plain language</h2>
+          <p>
+            The glossary describes hundreds of Databricks platform activities across governance, operations,
+            security, MLOps, and enablement. This tool turns that content into a visual learning experience.
+          </p>
+        </div>
+      </article>
+
+      <article class="card">
+        <p class="section-label">Audience Snapshot</p>
+        <h2>Who is in the conversation?</h2>
+        <div id="pillarCards" class="pillar-grid"></div>
+      </article>
     </section>
 
-    <section class="pillars card">
-      <h2>Who the columns represent</h2>
-      <div id="pillarCards" class="pillar-grid"></div>
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <p class="section-label">Learning Paths</p>
+          <h2>Start with the theme your audience cares about</h2>
+        </div>
+      </div>
+      <div id="pathCards" class="path-grid"></div>
     </section>
 
-    <main class="workspace">
-      <section class="matrix card">
-        <div class="matrix-header">
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <p class="section-label">Section Tour</p>
+          <h2>Walk through the full Databricks lifecycle</h2>
+        </div>
+        <p class="section-copy">Each section groups activities that belong together so workshop participants can learn the platform story in sequence.</p>
+      </div>
+      <div id="sectionCards" class="section-grid"></div>
+    </section>
+
+    <main id="explorer" class="workspace">
+      <section class="card explorer">
+        <div class="section-head">
           <div>
-            <h2>Interactive RACI Matrix</h2>
-            <p>Select a row to see the glossary explanation and why the suggested split may be reasonable.</p>
+            <p class="section-label">Activity Explorer</p>
+            <h2>Browse, filter, and compare activities</h2>
           </div>
-          <p id="matrixStatus" class="matrix-status">Ready for workshop review.</p>
+          <p id="resultsSummary" class="section-copy">Ready to explore the glossary.</p>
         </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Activity</th>
-                <th>EBT</th>
-                <th>EET</th>
-                <th>DMO</th>
-                <th>BU</th>
-              </tr>
-            </thead>
-            <tbody id="matrixBody"></tbody>
-          </table>
+
+        <div class="toolbar">
+          <label class="field">
+            <span>Search</span>
+            <input id="searchInput" type="search" placeholder="Search by activity, concept, or keyword">
+          </label>
+          <label class="field">
+            <span>Section</span>
+            <select id="sectionFilter">
+              <option value="all">All sections</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Leading pillar</span>
+            <select id="pillarFilter">
+              <option value="all">Any lead</option>
+              <option value="EBT">EBT</option>
+              <option value="EET">EET</option>
+              <option value="DMO">DMO</option>
+              <option value="BU">BU</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Theme</span>
+            <select id="themeFilter">
+              <option value="all">All themes</option>
+            </select>
+          </label>
         </div>
+
+        <div id="activityList" class="activity-list"></div>
       </section>
 
-      <aside class="detail card">
+      <aside class="card detail">
         <div id="detailEmpty" class="detail-empty">
-          Select an activity row to inspect the glossary explanation and suggested rationale.
+          Select an activity card to see a plain-language explanation, leadership cues, and discussion prompts.
         </div>
+
         <div id="detailPanel" hidden>
           <div class="detail-top">
             <span id="detailSection" class="section-badge"></span>
-            <span id="detailChanged" class="changed-badge" hidden>Workshop override</span>
+            <span id="detailTheme" class="theme-badge"></span>
           </div>
-          <h2 id="detailTitle"></h2>
-          <p id="detailSummary" class="detail-summary"></p>
+
+          <div class="detail-title-row">
+            <div class="icon-badge" id="detailIcon" aria-hidden="true"></div>
+            <div>
+              <h2 id="detailTitle"></h2>
+              <p id="detailSummary" class="detail-summary"></p>
+            </div>
+          </div>
 
           <section class="detail-block">
-            <h3>Suggested RACI</h3>
+            <h3>Typical leadership split</h3>
             <div id="detailRaci" class="raci-chips"></div>
           </section>
 
           <section class="detail-block">
-            <h3>Why this split can make sense</h3>
-            <ul id="detailRationale" class="detail-list"></ul>
+            <h3>Why this matters</h3>
+            <ul id="detailSignals" class="detail-list"></ul>
           </section>
 
           <section class="detail-block">
-            <h3>Glossary definition</h3>
+            <h3>Plain-language definition</h3>
             <div id="detailDefinition" class="definition"></div>
           </section>
 
           <section class="detail-block">
-            <h3>Discussion prompts</h3>
+            <h3>Workshop talking points</h3>
             <ul id="detailPrompts" class="detail-list"></ul>
           </section>
         </div>
       </aside>
     </main>
+
+    <section id="quiz" class="card quiz-shell">
+      <div class="section-head">
+        <div>
+          <p class="section-label">Interactive Quiz</p>
+          <h2>Who would you expect to lead this activity?</h2>
+        </div>
+        <button id="nextQuizBtn" type="button" class="ghost-button">New activity</button>
+      </div>
+
+      <div class="quiz-layout">
+        <div class="quiz-card">
+          <p class="quiz-label">Activity</p>
+          <h3 id="quizTitle"></h3>
+          <p id="quizSummary"></p>
+          <div id="quizMeta" class="quiz-meta"></div>
+        </div>
+
+        <div class="quiz-card">
+          <p class="quiz-label">Pick the most likely accountable lead</p>
+          <div id="quizOptions" class="quiz-options"></div>
+          <div id="quizFeedback" class="quiz-feedback">Choose a pillar to reveal the suggested answer and explanation.</div>
+        </div>
+      </div>
+    </section>
   </div>
 
   <script src="workshop-data.js"></script>
